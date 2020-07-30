@@ -1,0 +1,46 @@
+@charset "UTF-8";
+
+header {
+	background-color: burlywood;
+	color: white;
+	padding: 1.5rem;
+	text-align: center;
+}
+
+nav {
+	background-color: darkseagreen;
+}
+
+ul {
+	margin: 0px;
+}
+
+li {
+	display: inline-block;
+	padding: 5px;
+	background-color: darkseagreen;
+	color: white;
+	cursor: pointer;
+}
+
+li:hover {
+	background-color: white;
+	color: darkseagreen;
+}
+
+a {
+	color: white;
+	text-decoration: none;
+}
+
+a:hover {
+	background-color: white;
+	color: darkseagreen;
+}
+
+footer {
+	background-color: darkseagreen;
+	text-align: center;
+	padding: 1.1rem;
+	color: white;
+}
