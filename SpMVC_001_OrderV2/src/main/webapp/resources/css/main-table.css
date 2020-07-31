@@ -1,0 +1,23 @@
+@charset "UTF-8";
+
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+	border: 1px solid blue;
+	width: 95%;
+	/* 
+	top, bottom은 margin을 5px로 설정하고, left, right 여백은 자동으로 유지하여 content를 중앙정렬
+	Box Layout에 다른 Box를 포함하면서 내부의 Box를 좌우 중앙정렬할 때 사용하는 패턴 코드
+	*/
+	margin: 5px auto;
+}
+
+th, td {
+	border: 1px solid #cccccc;
+	padding: 8px 8px;
+	text-align: left;
+}
+
+tr {
+	border-bottom: 1px solid #dddddd;
+}
