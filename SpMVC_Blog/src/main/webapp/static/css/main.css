@@ -1,0 +1,85 @@
+@charset "UTF-8";
+
+header {
+	text-align: center;
+	/* rem : padding, margin에서 많이 사용하는 단위로, 내부의 text 크기를 1로 하여 비례적으로 작용하는 값 */
+	padding: 1.5rem;
+	background-image: url("../images/fall-1072821.jpg");
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
+	color: white;
+}
+
+#button {
+	text-align: right;
+	padding: 8px;
+}
+
+/* id값이 button으로 설정된 box에 소속되어 있는 button tag에만 style 지정 */
+#button button {
+	background-color: #72cfdb;
+	color: black;
+	border: none;
+	/* button의 경우 design guide에서 제정한 값으로 t/b는 8px, l/r는 16px로 설정 */
+	padding: 8px 16px;
+	vertical-align: middle;
+	cursor: pointer;
+	/*
+	 transparent : 투명
+	 hover에서 밑줄 효과를 주고자 할 때, 화면이 흔들리는 현상을 막기 위해서 기본 테두리의 bottom을 투명하게 지정
+	*/
+	border-bottom: 2px solid transparent;
+}
+
+#button button:hover {
+	background-color: teal;
+	color: white;
+	border-bottom: 2px solid #72cfdb;
+}
+
+/*
+margin, padding의 값 지정
+ - 4개 값 전부 지정 : Top부터 시계방향으로 1개씩 지정
+ - 2개 값 : Top, Bottom / Right, Left
+*/
+#blog_body {
+	width: 80%;
+	border: 1px solid teal;
+	/* blog_body box의 Top, Bottom 여백을 10px로 하고, Left, Right 여백은 바깥쪽 box 크기를 계산하여 같은 값으로 자동 조절
+                = blog_body를 좌우 중앙에 정렬하는 용도로 사용 */
+	margin: 10px auto;
+}
+
+.blog_title {
+	background-color: teal;
+	padding: 8px;
+	color: white;
+}
+
+.blog_title:hover {
+	color: blue;
+}
+
+.blog_text {
+	padding: 8px;
+}
+
+/*
+inherit(상속받다)
+ - a tag를 감싸고 있는 바깥 tag의 색상을 그대로 상속받도록 함
+ - a tag는 고유한 색상표를 가지고 있는데, 디자인 통일성을 해치는 경우가 많음
+ 	예 : 글자색(color)
+ - 때문에 a tag의 색상은 inherit으로 지정하는 게 일반적
+*/
+a {
+	text-decoration: none;
+	color: inherit;
+}
+
+footer {
+	background-color: #72cfdb;
+	text-align: center;
+	padding: 8px;
+	color: #333;
+}
