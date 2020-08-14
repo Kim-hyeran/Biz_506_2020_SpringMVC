@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.biz.blog.dao.BlogDao">
+
+	<!-- 
+	ExecutorException: A query was run and no Result Maps
+	 - select 명령문에 resultType(Result Maps)이 누락된 경우
+	 -->
+	<select id="selectAll" resultType="BlogVO">
+		select * from tbl_blogs
+		order by bl_date desc, bl_time desc
+	</select>
+	<select id="findById"></select>
+	<insert id="insert"></insert>
+	<update id="update"></update>
+	<delete id="delete"></delete>
+
+</mapper>
