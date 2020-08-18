@@ -14,8 +14,33 @@
 		order by bl_date desc, bl_time desc
 	</select>
 	<select id="findById"></select>
-	<insert id="insert"></insert>
-	<update id="update"></update>
-	<delete id="delete"></delete>
+	<!-- resultType : 어떤 Type으로 데이터를 return할 것인가 -->
+	<select id="findBySeq" resultType="BlogVO">
+		select * from tbl_blogs
+		where bl_seq = #{seq}
+	</select>
+	<!-- 
+	parameterType
+	 - 어떤 Type으로 데이터를 주입할 것인가
+	 - insert 명령문에 사용하여 호환성 해결
+	 -->
+	<insert id="insert" parameterType="BlogVO">
+		insert into tbl_blogs
+			(bl_seq, bl_user, bl_date, bl_time, bl_title, bl_contents)
+		values (seq_blog.nextval, #{bl_user}, #{bl_date}, #{bl_time}, #{bl_title}, #{bl_contents})
+	</insert>
+	<update id="update" parameterType="BlogVO">
+		update tbl_blogs set
+			bl_user = #{bl_user},
+			bl_date = #{bl_date},
+			bl_time = #{bl_time},
+			bl_title = #{bl_title},
+			bl_contents = #{bl_contents}
+		where bl_seq = #{bl_seq}
+	</update>
+	<delete id="delete">
+		delete from tbl_blogs
+		where bl_seq = ${seq}
+	</delete>
 
 </mapper>

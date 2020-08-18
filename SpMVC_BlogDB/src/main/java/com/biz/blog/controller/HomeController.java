@@ -1,4 +1,4 @@
-package com.biz.blog;
+package com.biz.blog.controller;
 
 import java.util.Locale;
 

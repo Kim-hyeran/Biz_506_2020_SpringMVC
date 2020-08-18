@@ -21,7 +21,9 @@
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
 	
-	<context:component-scan base-package="com.biz.blog" />
+	<!-- 프로젝트를 실행(Run)할 때 굳이 scan하지 않아도 되는 클래스를 scan하는 비효율을 방지하기 위해 bean으로 등록할 필요가 있는 클래스들이 있는 패키지만 scan 설정 -->
+	<context:component-scan base-package="com.biz.blog.controller" />
+	<context:component-scan base-package="com.biz.blog.service" />
 	
 	
 	

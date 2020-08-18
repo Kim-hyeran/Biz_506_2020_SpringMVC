@@ -19,7 +19,7 @@
 		<article id="blog_body">
 		<!-- BLOGS : Controller로부터 받음 / BLOG : 직접 설정한 변수 -->
 			<c:forEach items="${BLOGS}" var="BLOG">
-				<section class="blog_title">
+				<section class="blog_title" onclick="goView(${BLOG.bl_seq})">
 					<!-- VO에서 선언한 변수명 입력 -->
 					<h3>${BLOG.bl_title} | <span>${BLOG.bl_user}</span>
 					</h3>
@@ -31,5 +31,11 @@
 		</article>
 	</section>
 	<%@ include file="/WEB-INF/views/include/include-footer.jspf"%>
+	<script>
+		function goView(seq) {
+			//현재 보고 있는 화면에서 href="주소"로 화면을 전환
+			document.location.href="${rootPath}/blog/view?seq="+seq
+		}
+	</script>
 </body>
 </html>
