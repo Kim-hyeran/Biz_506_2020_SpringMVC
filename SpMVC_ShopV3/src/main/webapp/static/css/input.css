@@ -1,0 +1,92 @@
+@charset "UTF-8";
+
+form fieldset {
+	width: 80%;
+	margin: 10px auto;
+	border: 1px solid grey;
+	border-radius: 5px;
+}
+
+form fieldset legend {
+	color: #1A3855;
+	font-weight: bold;
+}
+
+label {
+	display: inline-block;
+	width: 20%;
+	text-align: right;
+	margin: 4px;
+	padding: 8px;
+	color: #1A3855;
+	font-weight: bold;
+}
+
+input {
+	display: inline-block;
+	width: 60%;
+	margin: 4px;
+	padding: 8px;
+	border-radius: 5px;
+	border: 1px solid grey;
+}
+
+input.m_code {
+	width: 50%;
+}
+
+/*
+ id selector에 style을 지정할 때
+ - 원칙상 tag#id 형식으로 만들어야 하지만 #id만 사용하여도 문제 없다
+ */
+button.m_code_gen {
+	display: inline-block;
+	padding: 8px 16px;
+	background-color: #1A3855;
+	color: white;
+	cursor: pointer;
+	border: 1px solid transparent;
+	border-radius: 5px;
+}
+
+/*
+ css의 가상 selector
+  - tag, class, id 뒤에 ":속성" 형식으로 작성하는 selector
+ 	:hover, :nth-child() 등
+  - css3에서 본격적으로 지원하는 selector
+  - 기본 tag, class, id 등을 확장하여 js로 구현하던 다양한 기능을 css3만으로 구현할 수 있도록 만드는 확장 selector
+ */
+#p_code_gen:hover, #d_code_gen:hover {
+	background-color: #DBE3E3;
+	color: #1A3855;
+	border: 1px solid #1A3855;
+}
+
+#btn_box {
+	text-align: right;
+	width: 80%;
+	margin: 30px;
+}
+
+#btn_box button {
+	padding: 8px 16px;
+	border: 1px solid transparent;
+	border-radius: 5px;
+	color: white;
+	cursor: pointer;
+}
+
+#btn_box button:first-child {
+	background-color: darkgrey;
+}
+
+#btn_box button:last-child {
+	background-color: #1A3855;
+	color: white;
+}
+
+#btn_box button:hover {
+	background-color: #DBE3E3;
+	color: #1A3855;
+	border: 1px solid #1A3855;
+}
