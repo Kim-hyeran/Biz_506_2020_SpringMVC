@@ -42,18 +42,20 @@ nav#search-nav form input {
 
 section#search-list {
 	display: flex;
-	flex-flow: row wrap;
-	height: 100%;'
+	flex-flow: column nowrap;
 	justify-content: center;
 }
 
 section#search-list div {
 	width: 100%;
-	border: 1px solid #777;
-	background-color: lavender;
+	border: 1px solid #ccc;
 	border-radius: 5px;
 	margin: 5px;
 	padding: 5px;
+}
+
+section#search-list div:hover {
+	background-color: lavender;
 }
 
 section#search-list div p b {
@@ -67,29 +69,20 @@ img {
 </style>
 </head>
 <body>
-	<nav id="search-nav">
-		<form method="post">
-			<select name="category">
-				<option value="BOOK">도서정보</option>
-				<option value="NEWS">뉴스</option>
-				<option value="MOVIE">영화정보</option>
-			</select> <input name="search_text" placeholder="검색어를 입력하세요">
-		</form>
-	</nav>
-
 	<section id="search-list">
 		<c:forEach items="${NAVERS}" var="naver">
-			<div>
+			<div data-isbn="${naver.isbn}" class="book-select">
 				<h3>${naver.title}</h3>
 				<a href="${naver.link}" target=_new>
-					<c:if test="${naver.image=='noimage'}">
-						<img src="${roothPath}/resources/images/noimage.png" width="50px">
+					<c:if test="${naver.image=='noImage'}">
+						<img src="${rootPath}/resources/images/noImage.png" width="50px">
 					</c:if>
-					<c:if test="${naver.image!='noimage'}">
+					<c:if test="${naver.image!='noImage'}">
 						<img src="${naver.image}" alt="네이버 이미지">
 					</c:if>
 				</a>
 				<p>${naver.description}</p>
+				<p>ISBN : ${naver.isbn}</p>
 			</div>
 		</c:forEach>
 	</section>

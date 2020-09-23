@@ -11,9 +11,5 @@
 </head>
 <body>
 <h3>나의 홈페이지 방문을 환영합니다</h3>
-<form method="POST" action="${rootPath}/naver/api">
-	<input name="book_name" />
-	<button>검색</button>
-</form>
 </body>
 </html>
