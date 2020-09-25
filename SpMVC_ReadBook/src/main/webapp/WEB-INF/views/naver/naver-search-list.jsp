@@ -15,7 +15,7 @@ body {
 
 nav#search-nav {
 	width: 100%;
-	background-color: lavender;
+	background-color: #c8de4b;
 }
 
 nav#search-nav form {
@@ -55,11 +55,11 @@ section#search-list div {
 }
 
 section#search-list div:hover {
-	background-color: lavender;
+	background-color: #efedde;
 }
 
 section#search-list div p b {
-	color: indigo;
+	color: #a29696;
 }
 
 img {

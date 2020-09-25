@@ -2,10 +2,14 @@ package com.biz.book.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.biz.book.mapper.BookDao;
 import com.biz.book.model.BookVO;
 import com.biz.book.service.NaverService;
 
@@ -16,7 +20,7 @@ import lombok.extern.slf4j.Slf4j;
  * view를 return response하지 않고 객체, 문자열 등을 직접 JSON 형태로 response하는 Controller
  */
 @Slf4j
-@RestController
+@RestController	// @ResponseBody를 붙인 것과 같은 효과
 @RequestMapping(value="/api")
 public class BookApiController {
 
@@ -24,7 +28,14 @@ public class BookApiController {
 	@Qualifier("naverServiceV2")
 	private NaverService<BookVO> nService;
 	
-	// produces가 자동으로 설정되지 않는 경우(xml로 설정된 경우) 수동으로 직접 입력해주어야 한다.
+	@Autowired
+	private BookDao bookDao;
+	
+	/*
+	 * produces
+	 * client에게 데이터를 보내는 형식을 지정하는 속성
+	 * 기본값이 application/json 형태인데, 만약 client에서 json 데이터를 제대로 수신하지 못하는 경우 강제로 값 지정
+	 */
 	@RequestMapping(value="/isbn", method=RequestMethod.POST, produces="application/json;charset=utf8")
 	public BookVO naverSearch(String search_text) {
 		String queryURL=nService.queryURL("BOOK", search_text);
@@ -38,6 +49,19 @@ public class BookApiController {
 		BookVO bookVO=nService.getNaverList(queryURL).get(0);
 		
 		log.debug("도서정보 : "+bookVO.toString());
+		
+		return bookVO;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/detail/{book_seq}", method=RequestMethod.GET, produces="application/json;charset=utf8")
+	public BookVO detail(@PathVariable("book_seq") String id, Model model) {
+		log.debug("PATH : {}", id);
+
+		long seq=Long.valueOf(id);
+		BookVO bookVO=bookDao.findById(seq);
+		
+		//log.debug(bookVO.toString());
 		
 		return bookVO;
 	}
