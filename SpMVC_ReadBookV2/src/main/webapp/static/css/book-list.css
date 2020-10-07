@@ -1,0 +1,55 @@
+@charset "UTF-8";
+table#book-list {
+    border-collapse: collapse;
+    border-spacing: 0;
+    width: 90%;
+    border: 1px solid #a29696;
+    margin: 30px auto;
+}
+
+table#book-list th,
+table#book-list td {
+    border-bottom: 1px solid #a29696;
+    padding: 8px;
+    text-align: left;
+    vertical-align: top;
+}
+
+table#book-list td {
+    cursor: pointer;
+}
+
+table#book-list tr:nth-child(even) {
+    background-color: #efedde;
+}
+
+table#book-list tr:nth-child(odd) {
+    background-color: white;
+}
+
+/*
+ An+2(A는 상수) 공식으로 계산되는 결과에 따라 선택된다.
+ 어떤 같은 tag가 연속적으로 나올 때 tag의 개수만큼 n:0 ~ 개수-1 증가 속성
+ */
+table#book-list tr:nth-child(n+2):hover {
+    background-color: rgba(162, 150, 150, 0.5);
+}
+
+div#book-link-box {
+    width: 90%;
+    margin: 10px auto;
+    text-align: right;
+}
+
+div#book-link-box a {
+    display: inline-block;
+    padding: 10px 15px;
+    background-color: #c8de4b;
+    color: #544b4b;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+div#book-link-box a:hover {
+    background-color: #efedde;
+}
