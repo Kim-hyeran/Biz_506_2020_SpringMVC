@@ -1,11 +1,16 @@
 package com.biz.book.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.biz.book.mapper.AuthorityDao;
 import com.biz.book.mapper.UserDao;
+import com.biz.book.model.AuthorityVO;
 import com.biz.book.model.UserDetailsVO;
 
 import lombok.RequiredArgsConstructor;
@@ -22,6 +27,7 @@ import lombok.extern.slf4j.Slf4j;
  * 		this.passwordEncoder=passwordEncoder;
  * }
  */
+@Transactional
 @RequiredArgsConstructor
 public class MemberServiceImplV1 implements MemberService {
 
@@ -42,6 +48,9 @@ public class MemberServiceImplV1 implements MemberService {
 		
 		log.debug("password {}, encPassword {}", password, encPassword);
 		
+		// 
+		List<AuthorityVO> authList=new ArrayList<AuthorityVO>();
+		
 		/*
 		 * 회원 테이블에 값이 없을 때(0) 회원가입이 이루어지면 그 회원은 admin 권한을 갖고 enabled 칼럼을 1로 세팅하여 즉시 로그인이 가능하도록 함
 		 * 자바에서 true로 값을 설정하면 oracle db에서는 1로 저장
@@ -53,14 +62,33 @@ public class MemberServiceImplV1 implements MemberService {
 		 */
 		int nCount=userDao.userCount();
 		
+		// 1. 회원가입을 수행한 모든 사용자에게 기본값으로 ROLE_USER 권한을 부여
+		AuthorityVO authVO=AuthorityVO.builder().username(userVO.getUsername()).authority("ROLE_USER").build();
+		authList.add(authVO);
+		
 		if(nCount>0) {
 			userVO.setEnabled(false);	// 0으로 세팅
 		} else {
 			userVO.setEnabled(true);	// 1로 세팅
+			
+			// 2. 최초로 저장되는 회원은 ROLE_ADMIN 권한을 추가 부여하여 다른 사용자의 정보를 확인, 수정할 수 있도록 하고 관리자 페이지 사용가능하게끔 설정
+			authVO=AuthorityVO.builder().username(userVO.getUsername()).authority("ROLE_ADMIN").build();
+			authList.add(authVO);
 		}
+		
+		// List에 담겨있는 값을 DB에 insert할 때, 가장 쉽게 할 수 있는 방법이 List를 for 반복문으로 감싸 vo를 한개씩 insert에 보내는 방법 : 구식
+//		for(AuthorityVO vo : authList) {
+//			authDao.insert(vo);
+//		}
+		authDao.insertAll(authList);
 		
 		// 평문으로 입력된 비밀번호를 암호화된 비밀번호로 대치
 		userVO.setPassword(encPassword);
+		
+		// userDao의 insert가 수행되기 전 authDao.insert가 수행돼서 insert될 것이고, userDao insert에 문법오류를 고의로 발생시켰으므로 sql 실행이 중단됨
+		// -> authDao에는 insert가 되고 userDao에는 insert가 되지 않는 상황
+		// 이 상황에서 정상적으로 Transactional이 작동된다면 authDao insert가 취소되어야 한다.
+		
 		userDao.insert(userVO);
 		
 		return 0;

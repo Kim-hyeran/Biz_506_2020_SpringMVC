@@ -8,7 +8,7 @@
 	// 함수를 변수처럼 선언하면 =JS 객체화된다.
 	// 함수=객체=변수
 	// 1급 함수 : 함수 자체를 다른 함수의 매개변수로 전달할 수 있다.
-	const password_check=function(username) {
+	const password_check=function() {
 		let username=$("#username").val()
 		let password=$("#password").val()
 		
@@ -17,7 +17,6 @@
 			$("div#msg_password span").css("color", "red")
 			$("div#msg_password span").text("회원정보를 수정하려면 비밀번호를 입력하세요")
 			$("#password").focus()
-			
 			return false
 		}
 		
@@ -38,7 +37,6 @@
 				} else {
 					$("div#msg_password").css("display", "none")
 					$("form").submit()
-					return true
 				}
 			},
 			error : function() {
