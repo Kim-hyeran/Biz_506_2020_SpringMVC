@@ -52,6 +52,10 @@
 		만약 /user/**, /user/a/b/c 순서로 패턴이 있을 경우 /user/a/b/c/는 무시된다.
 		/user/a/b/c, /user/** 순서로 패턴을 나열해야 한다.
 	-->
+	
+	<!-- security:csrf 의 disabled 속성을 true로 설정하면 POST 전송시 Token을 첨부하지 않아도 사용가능하도록 한다. -->
+	<!-- 단, 이방법은 다른 API와 연동할때를 제외하고 사용하지 않는 것이 좋다. -->
+	<!-- 기본값은 항상 disbaled=false로 설정 한다. -->
 		<security:intercept-url pattern="/admin/**" access="hasRole('ROLE_ADMIN')"/>
 
 		<security:intercept-url pattern="/member/mypage" access="hasAnyRole('ROLE_ADMIN', 'ROLE_USER')"/>

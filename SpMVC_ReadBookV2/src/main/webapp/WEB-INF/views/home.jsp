@@ -20,6 +20,12 @@
 	var csrf_token = "${_csrf.token}"
 </script>
 <script src="${rootPath}/static/js/main-nav.js?ver=2020-10-07-001"></script>
+<style>
+	div#select_box {
+		width: 50%;
+		margin: 10px auto;
+	}
+</style>
 </head>
 
 <body>
@@ -57,6 +63,9 @@
 			<c:when test="${BODY == 'BOOK-DETAIL'}">
 				<%@ include file="/WEB-INF/views/books/book-detail.jsp"%>
 			</c:when>
+	    	<c:when test="${BODY == 'MEMBER-LOGIN'}">
+	    		<%@ include file="/WEB-INF/views/member/member-login.jsp" %>
+	    	</c:when>
 			<c:when test="${BODY == 'MEMBER-JOIN'}">
 				<%@ include file="/WEB-INF/views/member/member-write.jsp" %>
 			</c:when>
