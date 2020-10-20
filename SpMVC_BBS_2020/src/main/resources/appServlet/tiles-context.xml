@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans-4.3.xsd">
+
+	<!-- xml 파일에 layout을 설정하고, 그 설정값으로 view를 만드는 용도의 클래스 -->
+	<bean class="org.springframework.web.servlet.view.tiles3.TilesConfigurer">
+		<property name="definitions">
+			<list>
+				<value>classpath:/**/appServlet/tiles-layout.xml</value>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- spring UrlBasedResolver를 사용하여 tiles layout을 rendering하는 설정 -->
+	<!-- 일반적으로 bean 객체를 생성하여 주입하는 방식으로 설정할 수 없고, 클래스의 이름을 value 값으로 지정해주어야 한다. -->
+	<!-- value 값에 클래스 이름이 자동완성으로 입력되지 않는다. -->
+	<bean class="org.springframework.web.servlet.view.UrlBasedViewResolver">
+		<property name="viewClass" value="org.springframework.web.servlet.view.tiles3.TilesView" />
+		<!-- order 속성 1로 설정 -->
+		<!-- 현재 프로젝트에서 view와 관련된 클래스가 2개 선언된다. -->
+		<!-- servelet-context.xml internalResourceView, UrlBasedResolver -->
+		<!-- Controller에서 문자열을 return했을 때 어떤 view가 우선적으로 작동되어 사용자에게 response를 할 것인지 지정해주기 위해서 order 속성 지정 -->
+		<!-- 우선적으로 tiles view가 rendering 되도록 하기 위해서 servlet-context.xml view의 order를 2로 설정하고, UrlBasedView의 order를 1로 설정 -->
+		<property name="order" value="1"></property>
+	</bean>
+
+</beans>
