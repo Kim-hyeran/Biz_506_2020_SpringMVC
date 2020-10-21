@@ -25,4 +25,9 @@ public class BbsServiceImplV1 implements BbsService {
 		bbsDao.insert(bbsVO);
 	}
 
+	@Override
+	public BbsVO findBySeq(long long_seq) {
+		return bbsDao.findBySeq(long_seq);
+	}
+
 }
