@@ -15,14 +15,30 @@ import lombok.RequiredArgsConstructor;
  * 파일을 업로드할 때 원래 파일 이름(originalName)을 감추고 서버에서 별도의 파일 이름을 생성하여 저장해주는 것이 좋다.
  */
 
-@RequiredArgsConstructor
 @Service("fileServiceV4")
 public class FileServiceImplV4 extends FileServiceImplV1 {
+	
+	/*
+	 * 필드(멤버)변수를 private final로 선언했을 경우
+	 * 보통 final로 선언된 변수는 선언과 동시에 생성(초기화)를 해야 한다.
+	 * private final로 선언된 멤버변수는 클래스의 생성자 method에서 초기화하는 것을 허용
+	 * private final로 선언된 멤버변수는 반드시 클래스의 생성자 method에서 초기화
+	 */
+	
+	// private으로 선언된 rootFolder 변수를 protected로 변경
+	// protected로 선언된 변수들은 현재 클래스를 상속받은 클래스에서 그대로 사용이 가능하다.
+	protected final String rootFolder;
+	
+	public FileServiceImplV4() {
+		rootFolder="C:/bizwork/workspace/upload";
+	}
 	
 	@Override
 	public String fileUp(MultipartFile file) {
 		
-		String rootFolder="C:/bizwork/workspace/upload";
+		if(file==null) {
+			return null;
+		}
 		
 		File dir=new File(rootFolder);
 		
@@ -61,6 +77,19 @@ public class FileServiceImplV4 extends FileServiceImplV1 {
 		
 		// UUID가 부착된 파일 이름을 Controller
 		return saveFileName;
+	}
+	
+	// 파일 이름 받아서 삭제
+	@Override
+	public boolean fileDelete(String b_file) {
+		boolean ret=false;
+		
+		File deleteFile=new File(rootFolder, b_file);
+		if(deleteFile.exists()) {
+			ret=deleteFile.delete();
+		}
+		
+		return false;
 	}
 	
 }

@@ -41,9 +41,81 @@ section#bbs-detail-body {
 	margin:10px auto;
 	box-shadow: 2px 2px 2px rgba(0,0,0,0.5)
 }
+
+section#bbs-button-box {
+	width: 50%;
+	margin: 10px auto;
+	text-align: right;
+}
+
+section#bbs-button-box button {
+	margin: 10px;
+	padding: 10px 16px;
+	border: none;
+	outline: none;
+	border-radius: 5px;
+}
+
+section#bbs-button-box button:hover {
+	box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.6);
+}
+
+section#bbs-button-box button:nth-child(1) {
+	background-color: lightgreen;
+}
+
+section#bbs-button-box button:nth-child(2) {
+	background-color: skyblue;
+}
+
+section#bbs-button-box button:nth-child(3) {
+	background-color: orange;
+}
 </style>
+
+<script>
+	document.addEventListener("DOMContentLoaded", function() {
+		document.querySelector("section#bbs-button-box").addEventListener("click",function(e){
+						
+			let url = "${rootPath}/bbs/${BBSVO.b_seq}/"
+			if(e.target.tagName === ("BUTTON")) {
+				/*
+				 게시글 삭제를 요청하면(버튼 클릭) ajax를 사용하여 서버에 delete method type으로 삭제 요청
+				 */
+				if(e.target.className == "delete") {
+					if(confirm("정말 삭제할까요?")) {
+						// JSON 객체데이터를 문자열화 하여 HTTP Body 담기
+						let data = { seq : "${BBSVO.b_seq}", subject : "%{BBSVO.b_subject}" }
+						fetch( "${rootPath}/api/bbs",
+								{  
+									method : "PUT",
+									headers : {
+										"Content-Type" : "application/json"
+									},
+									body: JSON.stringify(data)
+								}
+						)
+						.then(function(result){
+							alert(result)
+						})
+						.catch(function(error){
+							alert("실패")
+						})
+						return false;
+					}
+				}
+				document.location.href= url + e.target.className
+			}		
+		})
+	})
+</script>
+
 <section id="bbs-detail-header">
-	<article><img src="${rootPath}/upload/${BBSVO.b_file}" width="200px"></article>
+	<article>
+		<a href="${rootPath}/upload/${BBSVO.b_file}" target=_new>
+			<img src="${rootPath}/upload/${BBSVO.b_file}" width="200px">
+		</a>
+	</article>
 	<article>
 		<div class="title">제목</div>
 		<div class="content">${BBSVO.b_subject}</div>
@@ -55,4 +127,9 @@ section#bbs-detail-body {
 </section>
 <section id="bbs-detail-body">
 ${BBSVO.b_content}
+</section>
+<section id="bbs-button-box">
+	<button class="list">목록</button>
+	<button class="update">수정</button>
+	<button class="delete">삭제</button>
 </section>

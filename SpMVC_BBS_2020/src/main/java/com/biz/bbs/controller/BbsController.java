@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.biz.bbs.model.BbsVO;
 import com.biz.bbs.service.BbsService;
@@ -27,10 +28,6 @@ public class BbsController {
 	@Autowired
 	@Qualifier("bbsServiceV1")
 	private BbsService bbsService;
-	
-	@Autowired
-	@Qualifier("fileServiceV4")
-	private FileService fileService;
 	
 	/*
 	 * return문에 bbs/list 문자열이 있을 경우
@@ -51,6 +48,7 @@ public class BbsController {
 		return "/bbs/list";
 	
 	}
+	
 	@RequestMapping(value="/write",method=RequestMethod.GET)
 	public String write() {
 		return "/bbs/write";
@@ -60,18 +58,22 @@ public class BbsController {
 	 * form에서 보낸 파일 받기
 	 * MultipartFile 클래스를 매개변수로 설정하여 파일 받기
 	 * @RequestParam("이름") : 이름=form에서 input type="file"로 설정된 tag의 name값
+	 * 
+	 * MultipartHttpServletRequest
+	 * 멀티 파일(다수의 파일)을 한꺼번에 업로드했을 때 파일들을 받을 클래스(인터페이스)
+	 * 1. 단독 파일을 추출
+	 * 2. 각각의 파일ㄷ르을 모두 업로드 수행
+	 * 3. 업로드된 파일 이름을 DB에 저장
 	 */
 	@RequestMapping(value="/write",method=RequestMethod.POST)
-	public String write(BbsVO bbsVO, @RequestParam("file") MultipartFile file) {
-		
+	public String write(BbsVO bbsVO, @RequestParam(name="file", required=false) MultipartFile file, MultipartHttpServletRequest files) {
 		log.debug("업로드한 파일 이름" + file.getOriginalFilename());
 		
-		String fileName = fileService.fileUp(file);
-		bbsVO.setB_file(fileName);
-		bbsService.insert(bbsVO);
+		// bbsService.insert(bbsVO) : text 데이터만 insert
+		// bbsService.insert(bbsVO, file) : text 데이터와 한 개의 파일을 insert
+		List<String> fileName=bbsService.insert(bbsVO, files);	// text 데이터와 여러 개의 파일을 insert
 		
 		return "redirect:/bbs/list";
-	
 	}
 	
 	@RequestMapping(value="/detail/{seq}",method=RequestMethod.GET)
@@ -82,6 +84,21 @@ public class BbsController {
 		
 		model.addAttribute("BBSVO",bbsVO);
 		return "/bbs/detail";
+	}
+	
+	@RequestMapping(value="/{seq}/{url}", method=RequestMethod.GET)
+	public String update(@PathVariable("seq") String seq, @PathVariable("url") String url, Model model) {
+		long long_seq=Long.valueOf(seq);
+		String ret_url="redirect:/bbs/list";
+		
+		if(url.equalsIgnoreCase("DELETE")) {
+			bbsService.delete(long_seq);			
+		} else if(url.equalsIgnoreCase("UPDATE")) {
+			model.addAttribute("BBSVO", bbsService.findBySeq(long_seq));
+			ret_url="/bbs/write";
+		}
+		
+		return ret_url;
 	}
 
 }
