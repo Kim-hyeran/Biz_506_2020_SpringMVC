@@ -44,6 +44,9 @@ public class BbsServiceImplV1 implements BbsService {
 
 	@Override
 	public BbsVO findBySeq(long long_seq) {
+		BbsVO bbsVO=bbsDao.findBySeq(long_seq);
+		List<ImageVO> images=imageDao.findByBSeq(long_seq);
+		
 		return bbsDao.findBySeq(long_seq);
 	}
 

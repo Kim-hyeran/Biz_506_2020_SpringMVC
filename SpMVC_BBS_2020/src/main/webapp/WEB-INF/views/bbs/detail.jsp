@@ -113,7 +113,12 @@ section#bbs-button-box button:nth-child(3) {
 <section id="bbs-detail-header">
 	<article>
 		<a href="${rootPath}/upload/${BBSVO.b_file}" target=_new>
-			<img src="${rootPath}/upload/${BBSVO.b_file}" width="200px">
+			<c:if test="${empty BBSVO.b_file}">
+				<img src="${rootPath}/static/files/noimage.png" width="200px">
+			</c:if>
+			<c:if test="${not empty BBSVO.b_file}">
+				<img src="${rootPath}/upload/${BBSVO.b_file}" width="200px">
+			</c:if>
 		</a>
 	</article>
 	<article>
@@ -132,4 +137,24 @@ ${BBSVO.b_content}
 	<button class="list">목록</button>
 	<button class="update">수정</button>
 	<button class="delete">삭제</button>
+</section>
+
+<style>
+	section#images-box {
+		width: 50%;
+		margin: 10px auto;
+		padding: 5px;
+	}
+	
+	section#images-box img {
+		margin: 3px;
+		border-radius: 20px;
+	}
+</style>
+<section id="images-box">
+	<c:if test="${not empty BBSVO.images}">
+		<c:forEach items="${BBSVO.images}" var="image">
+			<img src="${rootPath}/upload/${image.i_file_name}" height="100px">
+		</c:forEach>
+	</c:if>
 </section>
